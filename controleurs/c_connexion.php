@@ -40,7 +40,7 @@ case 'valideConnexion':
         $nom = $comptable['nom'];
         $prenom = $comptable['prenom'];
         //déclaration d'une variable estComptable
-        $estComptable = TRUE;
+        $_SESSION['estComptable'] = TRUE;
         connecter($id, $nom, $prenom);
         header('Location: index.php');
     }else{
