@@ -33,13 +33,15 @@ case 'valideConnexion':
         $id = $visiteur['id'];
         $nom = $visiteur['nom'];
         $prenom = $visiteur['prenom'];
+        //déclare que le visiteur n'est pas comptable
+        $_SESSION['estComptable'] = FALSE;
         connecter($id, $nom, $prenom);
         header('Location: index.php');
     } elseif (is_array($comptable)) {
         $id = $comptable['id'];
         $nom = $comptable['nom'];
         $prenom = $comptable['prenom'];
-        //déclaration d'une variable estComptable
+        //déclare que le visiteur est comptable
         $_SESSION['estComptable'] = TRUE;
         connecter($id, $nom, $prenom);
         header('Location: index.php');
