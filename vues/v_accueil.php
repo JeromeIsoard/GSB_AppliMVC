@@ -77,11 +77,11 @@ if (!$_SESSION['estComptable']){
             <div class="panel-body">
                 <div class="row">
                     <div class="col-xs-12 col-md-12">
-                        <a href="index.php?uc=validerFrais&action=saisirFrais"
+                        <a href="index.php?uc=validerFrais&action=validerFrais"
                            class="btn btn-success btn-lg" role="button">
                             <span class="glyphicon glyphicon-pencil"></span>
                             <br>Valider une fiche de frais</a>
-                        <a href="index.php?uc=suivreFrais&action=selectionnerMois"
+                        <a href="index.php?uc=suivreFrais&action=suivreFrais"
                            class="btn btn-primary btn-lg" role="button">
                             <span class="glyphicon glyphicon-list-alt"></span>
                             <br>Suivre le paiement des fiches de frais</a>
