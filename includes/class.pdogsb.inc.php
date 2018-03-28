@@ -105,6 +105,30 @@ class PdoGsb
     }
     
     /**
+     * Retourne sous forme d'un tableau associatif toute la liste 
+     * des visiteurs triée par ordre alphabétique.
+     * 
+     * @return les champs id, nom et prenom des lignes de visiteurs
+     * sous forme d'un tableau associatif.
+     */
+    public function getLesVisiteurs()
+    {
+        $requetePrepare = PdoGsb::$monPdo->prepare(
+                'SELECT * '
+                . 'FROM visiteur '
+                . 'ORDER BY visiteur.id '
+        );
+        
+//        $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
+//        $requetePrepare->bindParam(':unNomVisiteur', $nom , PDO::PARAM_STR);
+//        $requetePrepare->bindParam(':unPrenomVisiteur', $prenom, PDO::PARAM_STR);
+        $requetePrepare->execute();
+        return  $requetePrepare->fetchAll();
+        
+        
+    }
+    
+    /**
      * Retourne les informations d'un comptable
      * 
      * @param type $login Login du comptable
@@ -443,6 +467,32 @@ class PdoGsb
         $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
         $requetePrepare->execute();
         $lesMois = array();
+        while ($laLigne = $requetePrepare->fetch()) {
+            $mois = $laLigne['mois'];
+            $numAnnee = substr($mois, 0, 4);
+            $numMois = substr($mois, 4, 2);
+            $lesMois[] = array(
+                'mois' => $mois,
+                'numAnnee' => $numAnnee,
+                'numMois' => $numMois
+            );
+        }
+        return $lesMois;
+    }
+    
+    /**
+     * Retourne la liste de tous les mois correspondant à une fiche de frais
+     * sous forme d'un tableau associatif
+     * 
+     * @return un tableau de mois
+     */
+    public function getLesMois()
+    {
+        $requetePrepare = PdoGsb::$monPdo->prepare(
+                'SELECT DISTINCT fichefrais.mois AS mois FROM fichefrais '
+                . 'ORDER BY fichefrais.mois desc'
+                );
+        $requetePrepare->execute();
         while ($laLigne = $requetePrepare->fetch()) {
             $mois = $laLigne['mois'];
             $numAnnee = substr($mois, 0, 4);

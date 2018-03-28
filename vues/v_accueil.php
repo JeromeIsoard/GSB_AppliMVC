@@ -77,7 +77,7 @@ if (!$_SESSION['estComptable']){
             <div class="panel-body">
                 <div class="row">
                     <div class="col-xs-12 col-md-12">
-                        <a href="index.php?uc=validerFrais&action=validerFrais"
+                        <a href="index.php?uc=validerFrais&action=selectionnerVisiteurEtMois"
                            class="btn btn-success btn-lg" role="button">
                             <span class="glyphicon glyphicon-pencil"></span>
                             <br>Valider une fiche de frais</a>
