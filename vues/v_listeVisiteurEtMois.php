@@ -1,18 +1,18 @@
 <?php
 /**
- * Vue Liste des mois
+ * Vue Liste des visiteurs et des mois
  *
  * PHP Version 7
  *
  * @category  PPE
  * @package   GSB
- * @author    Réseau CERTA <contact@reseaucerta.org>
- * @author    José GIL <jgil@ac-nice.fr>
+ * @author    Jérome ISOARD <isoard.jerome@gmail.com>
  * @copyright 2017 Réseau CERTA
  * @license   Réseau CERTA
  * @version   GIT: <0>
  * @link      http://www.reseaucerta.org Contexte « Laboratoire GSB »
  */
+
 ?>
 
 <h2>Valider une fiche de frais</h2>
@@ -31,13 +31,20 @@
                         $id = $unVisiteur['id'];
                         $nom = $unVisiteur['nom'];
                         $prenom = $unVisiteur['prenom'];
-                        ?>
-                        <option value="<?php echo $id ?>">
-                            <?php echo $id . ' ' . $nom . ' ' . $prenom ?> </option>
-                    <?php
+                        if ($id == $visiteurASelectionner) {
+                            ?>
+                            <option selected value="<?php echo $id ?>">
+                                <?php echo $id . ' ' . $nom . ' ' . $prenom ?> </option>
+                            <?php
+                        } else {
+                            ?>
+                            <option value="<?php echo $id ?>">
+                                <?php echo $id . ' ' . $nom . ' ' . $prenom ?> </option>
+                            <?php
+                        }
                     }
-                    ?>    
-
+                    ?>
+                            
                 </select>
                 <label for="lstMois" accesskey="n">Mois : </label>
                 <select id="lstMois" name="lstMois" class="form-control">
