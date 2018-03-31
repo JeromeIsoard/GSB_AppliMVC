@@ -12,7 +12,6 @@
  * @version   GIT: <0>
  * @link      http://www.reseaucerta.org Contexte « Laboratoire GSB »
  */
-
 ?>
 
 <h2>Valider une fiche de frais</h2>

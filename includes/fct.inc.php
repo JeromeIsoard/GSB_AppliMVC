@@ -235,6 +235,18 @@ function ajouterErreur($msg)
 }
 
 /**
+ * Ajoute le libellé d'un succès
+ *
+ * @param String $msg Libellé du succès.
+ *
+ * @return null
+ */
+function ajouterSucces($msg)
+{
+    $_REQUEST['succes'] = $msg;
+}
+
+/**
  * Retoune le nombre de lignes du tableau des erreurs
  *
  * @return Integer le nombre d'erreurs

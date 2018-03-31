@@ -27,10 +27,10 @@ switch ($action) {
         break;
     case 'voirFicheFrais';
         // données nécessaire à l'affichage de la vue v_listeVisiteurEtMois
-        $leVisiteur = filter_input(INPUT_POST, 'lstVisiteur', FILTER_SANITIZE_STRING);
-        $leMois = filter_input(INPUT_POST, 'lstMois', FILTER_SANITIZE_STRING);
         $lesVisiteurs = $pdo->getLesVisiteurs();
         $lesMois = $pdo->getLesMois();
+        $leVisiteur = filter_input(INPUT_POST, 'lstVisiteur', FILTER_SANITIZE_STRING);
+        $leMois = filter_input(INPUT_POST, 'lstMois', FILTER_SANITIZE_STRING);
         $moisASelectionner = $leMois;
         $visiteurASelectionner = $leVisiteur;
         include 'vues/v_listeVisiteurEtMois.php';
@@ -55,16 +55,16 @@ switch ($action) {
 
         break;
     case 'actualiserFraisForfait';
-        // données nécessaire à l'affichage de la vue v_listeVisiteurEtMois
-        $leVisiteur = filter_input(INPUT_POST, 'lstVisiteur', FILTER_SANITIZE_STRING);
-        $leMois = filter_input(INPUT_POST, 'lstMois', FILTER_SANITIZE_STRING);
+        // données nécessaires à l'affichage de la vue v_listeVisiteurEtMois
         $lesVisiteurs = $pdo->getLesVisiteurs();
         $lesMois = $pdo->getLesMois();
+        $leVisiteur = filter_input(INPUT_POST, 'leVisiteur', FILTER_SANITIZE_STRING);
+        $leMois = filter_input(INPUT_POST, 'leMois', FILTER_SANITIZE_STRING);
         $moisASelectionner = $leMois;
         $visiteurASelectionner = $leVisiteur;
         include 'vues/v_listeVisiteurEtMois.php';
         
-        // données nécessaire à l'affichage de la vue v_detailFicheFrais
+        // affichage de la vue v_detailFicheFrais
         $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($leVisiteur, $leMois);
         $numAnnee = substr($leMois, 0, 4);
         $numMois = substr($leMois, 4, 2);
@@ -73,21 +73,20 @@ switch ($action) {
         $montantValide = $lesInfosFicheFrais['montantValide'];
         include 'vues/v_detailFicheFrais.php';
 
-
+        // affichage de la vue v_actualisationFraisForfait
         $lesFrais = filter_input(INPUT_POST, 'lesFrais', FILTER_DEFAULT, FILTER_FORCE_ARRAY);
         if (lesQteFraisValides($lesFrais)) {
             $pdo->majFraisForfait($leVisiteur, $leMois, $lesFrais);
+            ajouterSucces('Les modifications ont été prises en compte.');
+            include 'vues/v_succes.php';
         } else {
             ajouterErreur('Les valeurs des frais doivent être numériques');
             include 'vues/v_erreurs.php';
         }
-        var_dump($lesFrais);
-        
-        // données nécessaire à l'affichage de la vue v_actualisationFraisForfait
         $lesFraisForfait = $pdo->getLesFraisForfait($leVisiteur, $leMois);
         include 'vues/v_actualisationFraisForfait.php';
 
-        // données nécessaire à l'affichage de la vue v_actualisationFraisHorsForfait
+        // affichage de la vue v_actualisationFraisHorsForfait
         $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($leVisiteur, $leMois);
         $nbJustificatifs = $lesInfosFicheFrais['nbJustificatifs'];
         include 'vues/v_actualisationFraisHorsForfait.php';

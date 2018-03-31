@@ -12,7 +12,6 @@
  * @version   GIT: <0>
  * @link      http://www.reseaucerta.org Contexte « Laboratoire GSB »
  */
-
 ?>
 <div class="panel panel-info">
     <div class="panel-heading">Eléments forfaitisés</div>
@@ -20,6 +19,9 @@
           action="index.php?uc=validerFrais&action=actualiserFraisForfait" 
           role="form">
         <fieldset>
+            <input type="hidden" name="leVisiteur" value="<?php echo $leVisiteur ?>">
+            <input type="hidden" name="leMois" value="<?php echo $leMois ?>">
+
             <table class="table table-bordered table-responsive">
                 <tr>
                     <?php
