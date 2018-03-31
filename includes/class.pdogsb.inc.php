@@ -448,6 +448,43 @@ class PdoGsb
         $requetePrepare->bindParam(':unIdFrais', $idFrais, PDO::PARAM_STR);
         $requetePrepare->execute();
     }
+    
+    /**
+     * Ajoute le terme "REFUSE" au début du libellé du frais hors forfait 
+     * dont l'id est passé en argument
+     *
+     * @param String $idFrais ID du frais
+     *
+     * @return null
+     */
+    public function refuserFraisHorsForfait($idFrais)
+    {
+        $requetePrepare = PdoGSB::$monPdo->prepare(
+            'UPDATE lignefraishorsforfait '
+            . 'SET libelle = "REFUSER" + libelle '
+            . 'WHERE lignefraishorsforfait.id = :unIdFrais'
+        );
+        $requetePrepare->bindParam(':unIdFrais', $idFrais, PDO::PARAM_STR);
+        $requetePrepare->execute();
+    }
+    
+    /** Retourne les informations d'un frais hors forfait
+     * 
+     * @param String $idFrais ID du frais
+     * 
+     * @return l'ID, l'idvisiteur, le mois, le libellé, la date et le montant
+     * d'un Frais Hors Forfait sous la forme d'un tableau associatif.
+     */
+    public function getLeFraisHorsForfait($idFrais)
+    {
+        $requetePrepare = PdoGsb::$monPdo->prepare(
+            'SELECT * FROM lignefraishorsforfait '
+            . 'WHERE lignefraishorsforfait.id = :unIdFrais'
+        );
+        $requetePrepare->bindParam(':unIdFrais', $idFrais, PDO::PARAM_STR);
+        $requetePrepare->execute();
+        return $requetePrepare->fetch();
+    }
 
     /**
      * Retourne les mois pour lesquel un visiteur a une fiche de frais
