@@ -473,7 +473,7 @@ class PdoGsb
      * @param String $idFrais ID du frais
      * 
      * @return l'ID, l'idvisiteur, le mois, le libellé, la date et le montant
-     * d'un Frais Hors Forfait sous la forme d'un tableau associatif.
+     *          d'un Frais Hors Forfait sous la forme d'un tableau associatif.
      */
     public function getLeFraisHorsForfait($idFrais)
     {
