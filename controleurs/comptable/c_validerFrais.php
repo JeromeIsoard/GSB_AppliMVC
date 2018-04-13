@@ -24,7 +24,7 @@ switch ($action) {
         // les mois étant triés décroissants
         $lesCles = array_keys($lesMois);
         $moisASelectionner = $lesCles[0];
-        include 'vues/v_listeVisiteurEtMois.php';
+        include 'vues/comptable/v_listeVisiteurEtMois.php';
         break;
     
     case 'voirFicheFrais';
@@ -35,7 +35,8 @@ switch ($action) {
         $leMois = filter_input(INPUT_POST, 'lstMois', FILTER_SANITIZE_STRING);
         $moisASelectionner = $leMois;
         $visiteurASelectionner = $leVisiteur;
-        include 'vues/v_listeVisiteurEtMois.php';
+        
+        include 'vues/comptable/v_listeVisiteurEtMois.php';
 
         // affichage de la vue v_detailFicheFrais
         $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($leVisiteur, $leMois);
@@ -44,16 +45,16 @@ switch ($action) {
         $libEtat = $lesInfosFicheFrais['libEtat'];
         $dateModif = dateAnglaisVersFrancais($lesInfosFicheFrais['dateModif']);
         $montantValide = $lesInfosFicheFrais['montantValide'];
-        include 'vues/v_detailFicheFrais.php';
+        include 'vues/comptable/v_detailFicheFrais.php';
 
         // affichage de la vue v_actualisationFraisForfait
         $lesFraisForfait = $pdo->getLesFraisForfait($leVisiteur, $leMois);
-        include 'vues/v_actualisationFraisForfait.php';
+        include 'vues/comptable/v_actualisationFraisForfait.php';
 
         // affichage de la vue v_actualisationFraisHorsForfait
         $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($leVisiteur, $leMois);
         $nbJustificatifs = $lesInfosFicheFrais['nbJustificatifs'];
-        include 'vues/v_actualisationFraisHorsForfait.php';
+        include 'vues/comptable/v_actualisationFraisHorsForfait.php';
         break;
     
     case 'actualiserFraisForfait';
@@ -64,7 +65,7 @@ switch ($action) {
         $leMois = filter_input(INPUT_POST, 'leMois', FILTER_SANITIZE_STRING);
         $moisASelectionner = $leMois;
         $visiteurASelectionner = $leVisiteur;
-        include 'vues/v_listeVisiteurEtMois.php';
+        include 'vues/comptable/v_listeVisiteurEtMois.php';
         
         // affichage de la vue v_detailFicheFrais
         $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($leVisiteur, $leMois);
@@ -73,7 +74,7 @@ switch ($action) {
         $libEtat = $lesInfosFicheFrais['libEtat'];
         $dateModif = dateAnglaisVersFrancais($lesInfosFicheFrais['dateModif']);
         $montantValide = $lesInfosFicheFrais['montantValide'];
-        include 'vues/v_detailFicheFrais.php';
+        include 'vues/comptable/v_detailFicheFrais.php';
 
         // affichage de la vue v_actualisationFraisForfait
         $lesFrais = filter_input(INPUT_POST, 'lesFrais', FILTER_DEFAULT, FILTER_FORCE_ARRAY);
@@ -86,23 +87,26 @@ switch ($action) {
             include 'vues/v_erreurs.php';
         }
         $lesFraisForfait = $pdo->getLesFraisForfait($leVisiteur, $leMois);
-        include 'vues/v_actualisationFraisForfait.php';
+        include 'vues/comptable/v_actualisationFraisForfait.php';
 
         // affichage de la vue v_actualisationFraisHorsForfait
         $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($leVisiteur, $leMois);
         $nbJustificatifs = $lesInfosFicheFrais['nbJustificatifs'];
-        include 'vues/v_actualisationFraisHorsForfait.php';
+        include 'vues/comptable/v_actualisationFraisHorsForfait.php';
         break;
         
     case 'refuserFraisHorsForfait';
         // affichage de la vue v_listeVisiteurEtMois
         $lesVisiteurs = $pdo->getLesVisiteurs();
         $lesMois = $pdo->getLesMois();
-        $leVisiteur = filter_input(INPUT_POST, 'leVisiteur', FILTER_SANITIZE_STRING);
-        $leMois = filter_input(INPUT_POST, 'leMois', FILTER_SANITIZE_STRING);
+        $idFrais = filter_input(INPUT_GET, 'idFrais', FILTER_SANITIZE_STRING);
+
+        $leFraisHorsForfait = $pdo->getLeFraisHorsForfait($idFrais);
+        $leVisiteur = $leFraisHorsForfait['idvisiteur'];
+        $leMois = $leFraisHorsForfait['mois'];
         $moisASelectionner = $leMois;
         $visiteurASelectionner = $leVisiteur;
-        include 'vues/v_listeVisiteurEtMois.php';
+        include 'vues/comptable/v_listeVisiteurEtMois.php';
 
         // affichage de la vue v_detailFicheFrais
         $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($leVisiteur, $leMois);
@@ -111,20 +115,17 @@ switch ($action) {
         $libEtat = $lesInfosFicheFrais['libEtat'];
         $dateModif = dateAnglaisVersFrancais($lesInfosFicheFrais['dateModif']);
         $montantValide = $lesInfosFicheFrais['montantValide'];
-        include 'vues/v_detailFicheFrais.php';
+        include 'vues/comptable/v_detailFicheFrais.php';
 
         // affichage de la vue v_actualisationFraisForfait
         $lesFraisForfait = $pdo->getLesFraisForfait($leVisiteur, $leMois);
-        include 'vues/v_actualisationFraisForfait.php';
+        include 'vues/comptable/v_actualisationFraisForfait.php';
         
         // affichage de la vue v_actualisationFraisHorsForfait
-        $idFrais = filter_input(INPUT_GET, 'idFrais', FILTER_SANITIZE_STRING);
-        $leFraisHorsForfait = getLeFraisHorsForfait($idFrais);
-        var_dump($leFraisHorsForfait);
         $pdo->refuserFraisHorsForfait($idFrais);
         $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($leVisiteur, $leMois);
         $nbJustificatifs = $lesInfosFicheFrais['nbJustificatifs'];
-        include 'vues/v_actualisationFraisHorsForfait.php';
+        include 'vues/comptable/v_actualisationFraisHorsForfait.php';
         break;
         
 //    case 'validerFiche';

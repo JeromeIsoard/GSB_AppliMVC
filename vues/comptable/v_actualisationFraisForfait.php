@@ -36,12 +36,12 @@
                 <tr>
                     <?php
                     foreach ($lesFraisForfait as $unFraisForfait) {
-                        $idFrais = $unFraisForfait['idfrais'];
+                        $idFraisForfait = $unFraisForfait['idfrais'];
                         $quantite = $unFraisForfait['quantite'];
                         ?>
                     <td class="qteForfait">
                         <input type="text" id="idFrais" 
-                               name="lesFrais[<?php echo $idFrais ?>]"
+                               name="lesFrais[<?php echo $idFraisForfait ?>]"
                                size="10" maxlength="5" 
                                value="<?php echo $quantite ?>" 
                                class="form-control">
