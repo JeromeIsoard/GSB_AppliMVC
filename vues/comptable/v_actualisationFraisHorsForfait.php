@@ -48,3 +48,12 @@
     </table>
 </div>
 
+<form method="post" 
+      action="index.php?uc=validerFrais&action=validerFiche" 
+      role="form">
+    <fieldset>
+        <input type="hidden" name="leVisiteur" value="<?php echo $leVisiteur ?>">
+        <input type="hidden" name="leMois" value="<?php echo $leMois ?>">
+        <button class="btn btn-success" type="submit">Valider la fiche</button>
+    </fieldset>
+</form>

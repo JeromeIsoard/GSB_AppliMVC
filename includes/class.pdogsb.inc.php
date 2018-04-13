@@ -308,7 +308,9 @@ class PdoGsb
     }
 
     /**
-     * Teste si un visiteur possède une fiche de frais pour le mois passé en argument
+     * Teste si un visiteur ne possède toujours pas de fiche de frais pour le mois passé 
+     * en argument. S'il n'y a pas de fiche, retourne vrai: ce sont les premier
+     * frais du mois.
      *
      * @param String $idVisiteur ID du visiteur
      * @param String $mois       Mois sous la forme aaaamm
@@ -327,6 +329,32 @@ class PdoGsb
         $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
         $requetePrepare->execute();
         if (!$requetePrepare->fetch()) {
+            $boolReturn = true;
+        }
+        return $boolReturn;
+    }
+    
+    /**
+     * Teste s'il existe une fiche de frais pour le visiteur et 
+     * le mois passé en argument
+     *
+     * @param String $idVisiteur ID du visiteur
+     * @param String $mois       Mois sous la forme aaaamm
+     *
+     * @return vrai ou faux
+     */
+    public function existeFicheFrais($idVisiteur, $mois)
+    {
+        $boolReturn = false;
+        $requetePrepare = PdoGsb::$monPdo->prepare(
+            'SELECT fichefrais.mois FROM fichefrais '
+            . 'WHERE fichefrais.mois = :unMois '
+            . 'AND fichefrais.idvisiteur = :unIdVisiteur'
+        );
+        $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
+        $requetePrepare->execute();
+        if ($requetePrepare->fetch()) {
             $boolReturn = true;
         }
         return $boolReturn;
