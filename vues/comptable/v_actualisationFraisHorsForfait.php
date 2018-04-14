@@ -40,6 +40,8 @@
                     <td><?php echo $montant ?></td>
                     <td><a href="index.php?uc=validerFrais&action=refuserFraisHorsForfait&idFrais=<?php echo $id ?>" 
                            onclick="return confirm('Voulez-vous vraiment supprimer ce frais?');">Supprimer ce frais</a></td>
+                    <td><a href="index.php?uc=validerFrais&action=reporterFraisHorsForfait&idFrais=<?php echo $id ?>" 
+                           onclick="return confirm('Voulez-vous vraiment reporter ce frais?');">Reporter ce frais</a></td>       
                 </tr>
                 <?php
             }
@@ -47,13 +49,16 @@
         </tbody>  
     </table>
 </div>
+<div id="center-div">
+    <form method="post" 
+          action="index.php?uc=validerFrais&action=validerFiche" 
+          role="form">
+        <fieldset>
+            <input type="hidden" name="leVisiteur" value="<?php echo $leVisiteur ?>">
+            <input type="hidden" name="leMois" value="<?php echo $leMois ?>">
+            <button class="btn btn-success" type="submit">Valider la fiche</button>
+        </fieldset>
+    </form>
+</div>
 
-<form method="post" 
-      action="index.php?uc=validerFrais&action=validerFiche" 
-      role="form">
-    <fieldset>
-        <input type="hidden" name="leVisiteur" value="<?php echo $leVisiteur ?>">
-        <input type="hidden" name="leMois" value="<?php echo $leMois ?>">
-        <button class="btn btn-success" type="submit">Valider la fiche</button>
-    </fieldset>
-</form>
+

@@ -168,8 +168,57 @@ switch ($action) {
         $nbJustificatifs = $lesInfosFicheFrais['nbJustificatifs'];
         include 'vues/comptable/v_actualisationFraisHorsForfait.php';
         break;
-//    case 'demanderReport';
-//
-//        break;
+    case 'reporterFraisHorsForfait';
+        // affichage de la vue v_listeVisiteurEtMois
+        $lesVisiteurs = $pdo->getLesVisiteurs();
+        $lesMois = $pdo->getLesMois();
+        $idFrais = filter_input(INPUT_GET, 'idFrais', FILTER_SANITIZE_STRING);
+
+        $leFraisHorsForfait = $pdo->getLeFraisHorsForfait($idFrais);
+        $leVisiteur = $leFraisHorsForfait['idvisiteur'];
+        $leMois = $leFraisHorsForfait['mois'];
+        $moisASelectionner = $leMois;
+        $visiteurASelectionner = $leVisiteur;
+        include 'vues/comptable/v_listeVisiteurEtMois.php';
+
+        // affichage de la vue v_detailFicheFrais
+        $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($leVisiteur, $leMois);
+        $numAnnee = substr($leMois, 0, 4);
+        $numMois = substr($leMois, 4, 2);
+        $libEtat = $lesInfosFicheFrais['libEtat'];
+        $dateModif = dateAnglaisVersFrancais($lesInfosFicheFrais['dateModif']);
+        $montantValide = $lesInfosFicheFrais['montantValide'];
+        include 'vues/comptable/v_detailFicheFrais.php';
+
+        // affichage de la vue v_actualisationFraisForfait
+        $lesFraisForfait = $pdo->getLesFraisForfait($leVisiteur, $leMois);
+        include 'vues/comptable/v_actualisationFraisForfait.php';
+        
+        // affichage de la vue v_actualisationFraisHorsForfait
+        
+        $leMoisSuivant = getMois(date('d/m/Y')); //correspont au mois actuel
+
+        
+        // test si une fiche du mois suivant n'existe pas
+        if (!$pdo->existeFicheFrais($leVisiteur, $leMoisSuivant)){
+            // création d'une nouvelle fiche pour le mois suivant
+            $pdo->creeNouvellesLignesFrais($leVisiteur, $leMoisSuivant);
+        }
+        // ajout de la ligne de frais dans la fiche du mois suivant
+        $leFraisReporte = $pdo->getLeFraisHorsForfait($idFrais);
+        $pdo->creeNouveauFraisHorsForfait(
+                $leFraisReporte['idvisiteur'], 
+                $leMoisSuivant,
+                $leFraisReporte['libelle'],
+                dateAnglaisVersFrancais($leFraisReporte['date']),
+                $leFraisReporte['montant']);
+        
+        // suppression de la ligne dans la fiche courante
+        $pdo->supprimerFraisHorsForfait($idFrais);
+        
+        $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($leVisiteur, $leMois);
+        $nbJustificatifs = $lesInfosFicheFrais['nbJustificatifs'];
+        include 'vues/comptable/v_actualisationFraisHorsForfait.php';
+        break;
 }
 
