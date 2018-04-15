@@ -39,7 +39,7 @@
                     <td> <?php echo $libelle ?></td>
                     <td><?php echo $montant ?></td>
                     <td><a href="index.php?uc=validerFrais&action=refuserFraisHorsForfait&idFrais=<?php echo $id ?>" 
-                           onclick="return confirm('Voulez-vous vraiment supprimer ce frais?');">Supprimer ce frais</a></td>
+                           onclick="return confirm('Voulez-vous vraiment refuser ce frais?');">Refuser ce frais</a></td>
                     <td><a href="index.php?uc=validerFrais&action=reporterFraisHorsForfait&idFrais=<?php echo $id ?>" 
                            onclick="return confirm('Voulez-vous vraiment reporter ce frais?');">Reporter ce frais</a></td>       
                 </tr>

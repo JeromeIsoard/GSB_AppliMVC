@@ -478,8 +478,11 @@ class PdoGsb
     }
     
     /**
-     * Ajoute le terme "REFUSE" au début du libellé du frais hors forfait 
+     * Ajoute le terme "REFUSE : " au début du libellé du frais hors forfait 
      * dont l'id est passé en argument
+     * 
+     * Si le texte du libellé dépasse la taille maximale (avec le terme "REFUSE : ")
+     * alors le texte est tronqué par la fin
      *
      * @param String $idFrais ID du frais
      *
@@ -487,12 +490,31 @@ class PdoGsb
      */
     public function refuserFraisHorsForfait($idFrais)
     {
+        // Exception: tronquer le libellé
+        // récupération du libellé
+        $requetePrepare = PdoGsb::$monPdo->prepare(
+                'SELECT lignefraishorsforfait.libelle '
+                . 'FROM lignefraishorsforfait '
+                . 'WHERE lignefraishorsforfait.id = :unIdFrais'
+        );
+        $requetePrepare->bindParam(':unIdFrais', $idFrais, PDO::PARAM_STR);
+        $requetePrepare->execute();
+        $leLibelle = $requetePrepare->fetch();
+        // test si libellé > 91 caractère (100 - "REFUSE : ")
+        if (strlen($leLibelle['libelle']) > 91){
+            // si oui, supprime les caractère après le 91e
+            $leLibelle['libelle'] = substr($leLibelle['libelle'], 0, 91);
+        }
+        // ajoute "REFUSE : " au début du libellé
         $requetePrepare = PdoGSB::$monPdo->prepare(
             'UPDATE lignefraishorsforfait '
-            . 'SET lignefraishorsforfait.libelle = CONCAT("REFUSE ", lignefraishorsforfait.libelle) '
+            . 'SET lignefraishorsforfait.libelle = CONCAT("REFUSE : ", :leLibelle) '
             . 'WHERE lignefraishorsforfait.id = :unIdFrais'
         );
         $requetePrepare->bindParam(':unIdFrais', $idFrais, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':leLibelle', $leLibelle['libelle'], PDO::PARAM_STR);
+//        var_dump($requetePrepare);
+//        die();
         $requetePrepare->execute();
     }
     
