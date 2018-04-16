@@ -622,6 +622,36 @@ class PdoGsb
         $laLigne = $requetePrepare->fetch();
         return $laLigne;
     }
+    
+    /**
+     * Retourne sous forme d'un tableau associatif toutes les fiches de frais 
+     * "validées" et "mises en paiement" avec les infos des visiteurs et 
+     * mois correspondant.
+     *
+     * @return un tableau de fiches de frais
+     */
+    public function getLesFichesVAetMP()
+    {
+        $requetePrepare = PdoGSB::$monPdo->prepare(
+            'SELECT fichefrais.idetat as idEtat, '
+            . 'fichefrais.datemodif as dateModif,'
+            . 'fichefrais.nbjustificatifs as nbJustificatifs, '
+            . 'fichefrais.montantvalide as montantValide, '
+            . 'fichefrais.mois as mois, '
+            . 'etat.libelle as libEtat, '
+            . 'visiteur.id as id, '
+            . 'visiteur.nom as nom, '
+            . 'visiteur.prenom as prenom '
+            . 'FROM fichefrais '
+            . 'INNER JOIN etat ON fichefrais.idetat = etat.id '
+            . 'INNER JOIN visiteur ON fichefrais.idvisiteur = visiteur.id '    
+            . 'WHERE fichefrais.idEtat = "VA" '
+            . 'OR fichefrais.idEtat = "MP"'
+        );
+        $requetePrepare->execute();
+        $lesLignes = $requetePrepare->fetchAll();
+        return $lesLignes;
+    }
 
     /**
      * Modifie l'état et la date de modification d'une fiche de frais.

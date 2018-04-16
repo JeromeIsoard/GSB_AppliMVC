@@ -38,9 +38,9 @@
                     <td> <?php echo $date ?></td>
                     <td> <?php echo $libelle ?></td>
                     <td><?php echo $montant ?></td>
-                    <td><a href="index.php?uc=validerFrais&action=refuserFraisHorsForfait&idFrais=<?php echo $id ?>" 
+                    <td><a href="index.php?uc=validerFrais&action=refuserFraisHorsForfait&idFrais=<?php echo $id ?>&lstVisiteur=<?php echo $leVisiteur ?>&lstMois=<?php echo $leMois ?>" 
                            onclick="return confirm('Voulez-vous vraiment refuser ce frais?');">Refuser ce frais</a></td>
-                    <td><a href="index.php?uc=validerFrais&action=reporterFraisHorsForfait&idFrais=<?php echo $id ?>" 
+                    <td><a href="index.php?uc=validerFrais&action=reporterFraisHorsForfait&idFrais=<?php echo $id ?>&lstVisiteur=<?php echo $leVisiteur ?>&lstMois=<?php echo $leMois ?>" 
                            onclick="return confirm('Voulez-vous vraiment reporter ce frais?');">Reporter ce frais</a></td>       
                 </tr>
                 <?php
@@ -49,14 +49,14 @@
         </tbody>  
     </table>
 </div>
-<div id="center-div">
+<div class="center-div">
     <form method="post" 
           action="index.php?uc=validerFrais&action=validerFiche" 
           role="form">
         <fieldset>
-            <input type="hidden" name="leVisiteur" value="<?php echo $leVisiteur ?>">
-            <input type="hidden" name="leMois" value="<?php echo $leMois ?>">
-            <button class="btn btn-success" type="submit">Valider la fiche</button>
+            <input type="hidden" name="lstVisiteur" value="<?php echo $leVisiteur ?>">
+            <input type="hidden" name="lstMois" value="<?php echo $leMois ?>">
+            <button class="btn btn-success center-button" type="submit">Valider la fiche</button>
         </fieldset>
     </form>
 </div>

@@ -2,8 +2,21 @@
     margin-top: 10px;
 }
 
-#center-div{
-    width: 100px;
+.center-div{
+    width: 100%;
     margin: auto;
+    float: left;
     margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+}
+.center-button{
+    margin: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.erreur{
+    margin-top: 10px!important;
+    margin-bottom: 10px;
 }

@@ -19,8 +19,8 @@
           action="index.php?uc=validerFrais&action=actualiserFraisForfait" 
           role="form">
         <fieldset>
-            <input type="hidden" name="leVisiteur" value="<?php echo $leVisiteur ?>">
-            <input type="hidden" name="leMois" value="<?php echo $leMois ?>">
+            <input type="hidden" name="lstVisiteur" value="<?php echo $leVisiteur ?>">
+            <input type="hidden" name="lstMois" value="<?php echo $leMois ?>">
 
             <table class="table table-bordered table-responsive">
                 <tr>
