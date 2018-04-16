@@ -74,40 +74,17 @@ switch ($action) {
     case 'refuserFraisHorsForfait':
         // refus d'un frais hors forfait et actualisation des frais hors forfait
         $idFrais = filter_input(INPUT_GET, 'idFrais', FILTER_SANITIZE_STRING);
-        $leFraisHorsForfait = $pdo->getLeFraisHorsForfait($idFrais);
-        // test si le frais n'est pas déjà refusé                
-        if (substr($leFraisHorsForfait['libelle'], 0, 6) != 'REFUSE') {
-            $pdo->refuserFraisHorsForfait($idFrais);
-        }
+        $pdo->refuserFraisHorsForfait($idFrais);
         $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($leVisiteur, $leMois);
         break;
 
     case 'validerFiche':
-        // calcul et modification du montant validé
-        $montantValide = 0;
-        // frais forfait:
-        foreach ($lesFraisForfait as $unFraisForfait){            
-            $montantFrais = $pdo->getMontantFraisForfait($unFraisForfait['idfrais']);
-            $montantFrais = floatval($montantFrais) * $unFraisForfait['quantite'];
-            $montantValide += $montantFrais;
-        }
-        // frais hors forfait:
-        foreach ($lesFraisHorsForfait as $unFraisHorsForfait){
-            // test si le frais n'est pas refusé                
-            if (substr($unFraisHorsForfait['libelle'], 0, 6) != 'REFUSE'){
-                $montantValide += floatval($unFraisHorsForfait['montant']);
-            }
-        }
-        // maj du montant validé
-        $pdo->majMontantValide($leVisiteur, $leMois, $montantValide);
-        
         // modification de l'état de la fiche de frais
         $pdo->majEtatFicheFrais($leVisiteur, $leMois, 'VA');
         // récupération des données pour la vue v_detailFicheFrais
         $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($leVisiteur, $leMois);
         $libEtat = $lesInfosFicheFrais['libEtat'];
         $dateModif = dateAnglaisVersFrancais($lesInfosFicheFrais['dateModif']);
-        $montantValide = $lesInfosFicheFrais['montantValide'];
         break;
 
     case 'reporterFraisHorsForfait':
@@ -149,3 +126,4 @@ if ($action != 'selectionnerVisiteurEtMois'){
             include 'vues/v_erreurs.php';
         }
 }
+

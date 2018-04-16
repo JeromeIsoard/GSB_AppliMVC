@@ -676,48 +676,5 @@ class PdoGsb
         $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
         $requetePrepare->execute();
     }
-    
-    /**
-     * Retourne le montant du frais forfait dont l'id est passé en parametre.
-     * 
-     * @param String $idFrais
-     *  
-     * @return le montant
-     */
-    public function getMontantFraisForfait($idFrais)
-    {
-        $requetePrepare = PdoGsb::$monPdo->prepare(
-            'SELECT fraisforfait.montant '
-            . 'FROM fraisforfait '
-            . 'WHERE fraisforfait.id = :unIdFrais'
-        );
-        $requetePrepare->bindParam(':unIdFrais', $idFrais, PDO::PARAM_STR);
-        $requetePrepare->execute();
-        $laLigne = $requetePrepare->fetch();
-        return $laLigne['montant'];
-    }
-    
-    /**
-     * Met à jour le montant validé de la fiche correspondante au visiteur et au
-     * mois passé en parametre
-     * 
-     * @param String $idVisiteur
-     * @param String $mois
-     * @param type $unMontant
-     * 
-     * @return null
-     */
-    public function majMontantValide($idVisiteur, $mois, $unMontant)
-    {
-        $requetePrepare = PdoGsb::$monPdo->prepare(
-            'UPDATE fichefrais '
-            . 'SET fichefrais.montantvalide = :unMontant '
-            . 'WHERE fichefrais.idvisiteur = :unVisiteur '
-            . 'AND fichefrais.mois = :unMois'
-        );
-        $requetePrepare->bindParam(':unMontant', $unMontant, PDO::PARAM_STR);
-        $requetePrepare->bindParam(':unVisiteur', $idVisiteur, PDO::PARAM_STR);
-        $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
-        $requetePrepare->execute();
-    }
 }
+
