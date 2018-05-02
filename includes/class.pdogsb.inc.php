@@ -38,12 +38,21 @@
 
 class PdoGsb
 {
-    private static $serveur = 'mysql:host=localhost';
+    // accès serveur local
+	private static $serveur = 'mysql:host=localhost';
     private static $bdd = 'dbname=gsb_frais';
     private static $user = 'userGsb';
     private static $mdp = 'secret';
     private static $monPdo;
     private static $monPdoGsb = null;
+	
+	// accès serveur distant
+	// private static $serveur = 'mysql:host=jeromeispn78.mysql.db';
+    // private static $bdd = 'dbname=jeromeispn78';
+    // private static $user = 'jeromeispn78';
+    // private static $mdp = 'zhX7KYGn89j7';
+    // private static $monPdo;
+    // private static $monPdoGsb = null;
 
     /**
      * Constructeur privé, crée l'instance de PDO qui sera sollicitée
