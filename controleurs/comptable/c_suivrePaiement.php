@@ -31,33 +31,33 @@ $nbJustificatifs = $lesInfosFicheFrais['nbJustificatifs'];
 
 switch ($action) {
     case 'selectionnerFiche':
-        include 'vues/comptable/v_listeFicheVAetMP.php';
         break;
 
     case 'voirFicheFrais':
-        include 'vues/comptable/v_listeFicheVAetMP.php';
-        include 'vues/comptable/v_ficheFraisVAetMP.php';
         break;
 
     case 'mettreEnPaiementFiche':
-        include 'vues/comptable/v_listeFicheVAetMP.php';
         // modification de l'état de la fiche à "mise en paiement"
         $pdo->majEtatFicheFrais($leVisiteur, $leMois, 'MP');
         // affichage de la vue
         $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($leVisiteur, $leMois);
         $libEtat = $lesInfosFicheFrais['libEtat'];
         $dateModif = dateAnglaisVersFrancais($lesInfosFicheFrais['dateModif']);
-        include 'vues/comptable/v_ficheFraisVAetMP.php';
         break;
 
     case 'indiquerRemboursement':
-        include 'vues/comptable/v_listeFicheVAetMP.php';
         // modification de l'état de la fiche à "mise en paiement"
         $pdo->majEtatFicheFrais($leVisiteur, $leMois, 'RB');
         // affichage de la vue
         $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($leVisiteur, $leMois);
         $libEtat = $lesInfosFicheFrais['libEtat'];
         $dateModif = dateAnglaisVersFrancais($lesInfosFicheFrais['dateModif']);
-        include 'vues/comptable/v_ficheFraisVAetMP.php';
         break;
+}
+
+// affichage des vues
+include 'vues/comptable/v_listeFicheVAetMP.php';
+
+if ($action != 'selectionnerFiche'){
+    include 'vues/comptable/v_ficheFraisVAetMP.php';
 }
